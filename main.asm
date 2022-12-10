@@ -21,7 +21,7 @@ NT_WRITE_FILE_SYSCALL_ID: equ 8
 ; register r10 is used as first argument instead of rcx
 
 ; stack:
-; rsp + 0x00 -> [return address]
+; rsp + 0x00 -> [pseudo return address]
 
 ; rsp + 0x08 -> [shadow space for arg 1]
 ; rsp + 0x10 -> [shadow space for arg 2]
