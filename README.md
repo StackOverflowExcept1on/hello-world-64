@@ -1,8 +1,8 @@
-# hello-world-69
+# hello-world-64
 
-The real programmers can write hello world in 69 bytes of machine code!
+The real programmers can write hello world in 64 bytes of machine code!
 
-![image](https://i.imgur.com/Zg3SXsa.png)
+![image](https://i.imgur.com/DqUNBSV.png)
 
 This repository contains code in assembly language targeting Windows x86_64.
 
@@ -30,6 +30,12 @@ Here is a list of things that are used to achieve this size:
       xor edx, edx ; 31 d2
       xor rdx, rdx ; 48 31 d2
       ; but it's same
+      ```
+    - if you want to set `rdx` to `0` you can use `cdq` to do it in 1 byte (bit 63 of rax should be 0)
+      ```asm
+      push 0x60 ; 6a 60
+      pop rax ; 58 (rax = 0x60, bit 63 of rax = 0)
+      cdq ; rdx = 0
       ```
 - see [main.asm](main.asm) for better explanation
 

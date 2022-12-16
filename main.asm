@@ -64,17 +64,17 @@ _start:
     ; see: https://github.com/wine-mirror/wine/blob/master/include/winternl.h
     ; r10 = 0x60 (offset to PEB)
     push 0x60
-    pop r10
+    pop rax
 
     ; r10 = PEB*
-    mov r10, gs:[r10]
+    mov r10, gs:[rax]
     ; 0x20 is RTL_USER_PROCESS_PARAMETERS offset
     mov r10, [r10 + 0x20]
     ; 0x28 is hStdOutput offset
     mov r10, [r10 + 0x28]
 
     ; arg 2, rdx = 0
-    xor edx, edx
+    cdq ; (rax = 0x60, bit 63 of rax = 0), so `cdq` does `rdx = 0`
 
     ; arg 3, r8 = 0, not necessary
     ; xor r8, r8
@@ -88,16 +88,16 @@ _start:
     ; see: https://stackoverflow.com/questions/30190132/what-is-the-shadow-space-in-x64-assembly
     ; memory from rsp to [rsp + sizeof(IO_STATUS_BLOCK)] will be overwritten after syscall
     ; sizeof(IO_STATUS_BLOCK) = 16 bytes
-    mov [rsp + 0x28], rsp
+    mov qword [rsp + 0x28], rsp
 
     ; arg 6, [rsp + 0x30]
     ; this is dirty hack to save bytes and push string to register rax
     ; call instruction will push address of hello world string to the stack and jumps to label `message_label`
     ; so, we can store address of string using pop instruction
     call message_label
-    message: db 'Hello World!'
+    message: db 'Hello World'
     message_label: pop rax
-    mov [rsp + 0x30], rax
+    mov qword [rsp + 0x30], rax
 
     ; arg 7, [rsp + 0x38]
     message_length: equ message_label - message
@@ -118,8 +118,9 @@ _start:
     ; perform syscall after passing all arguments
     syscall
 
-    ; eax = 0 (exit code)
-    xor eax, eax
+    ; eax = 0 (exit code), , not necessary
+    ; NtWriteFile(...) would set eax to 0
+    ; xor eax, eax
 
     ; deallocate memory
     add rsp, 80
