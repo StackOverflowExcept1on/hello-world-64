@@ -118,7 +118,7 @@ _start:
     ; perform syscall after passing all arguments
     syscall
 
-    ; eax = 0 (exit code), , not necessary
+    ; eax = 0 (exit code), not necessary
     ; NtWriteFile(...) would set eax to 0
     ; xor eax, eax
 
