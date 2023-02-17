@@ -1,5 +1,7 @@
 # hello-world-64
 
+[![Build Status](https://github.com/StackOverflowExcept1on/hello-world-64/actions/workflows/build.yml/badge.svg)](https://github.com/StackOverflowExcept1on/hello-world-64/actions/workflows/build.yml)
+
 The real programmers can write hello world in 64 bytes of machine code!
 
 ![image](https://i.imgur.com/DqUNBSV.png)
